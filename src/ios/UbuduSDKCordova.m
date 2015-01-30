@@ -32,7 +32,7 @@
 
 - (void)getSDKVersion:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: getSDKVersion");
+    NSLog(@"UbuduSDKCordova: getSDKVersion");
     NSString *sdkVersion = [UbuduSDK sharedInstance].SDKVersion;
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:sdkVersion];
@@ -41,7 +41,7 @@
 
 - (void)getAppNamespace:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: getAppNamespace");
+    NSLog(@"UbuduSDKCordova: getAppNamespace");
     NSString *appNamespace = [UbuduSDK sharedInstance].appNamespace;
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:appNamespace];
@@ -53,13 +53,13 @@
     CDVPluginResult* pluginResult = nil;
 
     if ([command.arguments count] == 0) {
-        NSLog(@"Plugin: setAppNamespace => error, no parameter");
+        NSLog(@"UbuduSDKCordova: setAppNamespace => error, no parameter");
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"App namespace parameter not provided"];
     }
     else {
         NSString *appNamespace = [command.arguments objectAtIndex:0];
         [UbuduSDK sharedInstance].appNamespace = appNamespace;
-        NSLog(@"Plugin: setAppNamespace '%@'", appNamespace);
+        NSLog(@"UbuduSDKCordova: setAppNamespace '%@'", appNamespace);
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -67,7 +67,7 @@
 
 - (void)getBaseURL:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: getBaseURL");
+    NSLog(@"UbuduSDKCordova: getBaseURL");
     NSString *baseURL = [UbuduSDK sharedInstance].baseURL;
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:baseURL];
@@ -79,13 +79,13 @@
     CDVPluginResult* pluginResult = nil;
 
     if ([command.arguments count] == 0) {
-        NSLog(@"Plugin: setBaseURL => error, no parameter");
+        NSLog(@"UbuduSDKCordova: setBaseURL => error, no parameter");
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Base URL parameter not provided"];
     }
     else {
         NSString *baseURL = [command.arguments objectAtIndex:0];
         [UbuduSDK sharedInstance].baseURL = baseURL;
-        NSLog(@"Plugin: setBaseURL '%@'", baseURL);
+        NSLog(@"UbuduSDKCordova: setBaseURL '%@'", baseURL);
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -93,7 +93,7 @@
 
 - (void)setDelegate:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: setDelegate");
+    NSLog(@"UbuduSDKCordova: setDelegate");
     // TODO Implement
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Not implemented"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -101,7 +101,7 @@
 
 - (void)getBeaconsEnabled:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: getBeaconsEnabled");
+    NSLog(@"UbuduSDKCordova: getBeaconsEnabled");
     BOOL beaconsEnabled = [UbuduSDK sharedInstance].beaconsEnabled;
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:beaconsEnabled];
@@ -113,13 +113,13 @@
     CDVPluginResult* pluginResult = nil;
 
     if ([command.arguments count] == 0) {
-        NSLog(@"Plugin: setBeaconsEnabled => error, no parameter");
+        NSLog(@"UbuduSDKCordova: setBeaconsEnabled => error, no parameter");
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"'Beacons enabled' boolean parameter not provided"];
     }
     else {
         NSNumber *beaconsEnabled = [command.arguments objectAtIndex:0];
         [UbuduSDK sharedInstance].beaconsEnabled = [beaconsEnabled boolValue];
-        NSLog(@"Plugin: setBeaconsEnabled '%@'", beaconsEnabled);
+        NSLog(@"UbuduSDKCordova: setBeaconsEnabled '%@'", beaconsEnabled);
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -127,7 +127,7 @@
 
 - (void)getGeofencesEnabled:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: getGeofencesEnabled");
+    NSLog(@"UbuduSDKCordova: getGeofencesEnabled");
     BOOL geofencesEnabled = [UbuduSDK sharedInstance].geofencesEnabled;
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:geofencesEnabled];
@@ -139,13 +139,13 @@
     CDVPluginResult* pluginResult = nil;
 
     if ([command.arguments count] == 0) {
-        NSLog(@"Plugin: setGeofencesEnabled => error, no parameter");
+        NSLog(@"UbuduSDKCordova: setGeofencesEnabled => error, no parameter");
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"'Geofences enabled' boolean parameter not provided"];
     }
     else {
         NSNumber *geofencesEnabled = [command.arguments objectAtIndex:0];
         [UbuduSDK sharedInstance].geofencesEnabled = [geofencesEnabled boolValue];
-        NSLog(@"Plugin: setGeofencesEnabled '%@'", geofencesEnabled);
+        NSLog(@"UbuduSDKCordova: setGeofencesEnabled '%@'", geofencesEnabled);
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -153,7 +153,7 @@
 
 - (void)getFileLogEnabled:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: getFileLogEnabled");
+    NSLog(@"UbuduSDKCordova: getFileLogEnabled");
     BOOL fileLogEnabled = [UbuduSDK sharedInstance].fileLogEnabled;
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:fileLogEnabled];
@@ -165,13 +165,13 @@
     CDVPluginResult* pluginResult = nil;
 
     if ([command.arguments count] == 0) {
-        NSLog(@"Plugin: setFileLogEnabled => error, no parameter");
+        NSLog(@"UbuduSDKCordova: setFileLogEnabled => error, no parameter");
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"'File log enabled' boolean parameter not provided"];
     }
     else {
         NSNumber *fileLogEnabled = [command.arguments objectAtIndex:0];
         [UbuduSDK sharedInstance].fileLogEnabled = [fileLogEnabled boolValue];
-        NSLog(@"Plugin: setFileLogEnabled '%@'", fileLogEnabled);
+        NSLog(@"UbuduSDKCordova: setFileLogEnabled '%@'", fileLogEnabled);
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -179,7 +179,7 @@
 
 - (void)deviceSupportsGeofences:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: deviceSupportsGeofences");
+    NSLog(@"UbuduSDKCordova: deviceSupportsGeofences");
     CDVPluginResult* pluginResult = nil;
 
     NSError *error = nil;
@@ -195,7 +195,7 @@
 
 - (void)deviceSupportsBeacons:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: deviceSupportsBeacons");
+    NSLog(@"UbuduSDKCordova: deviceSupportsBeacons");
     CDVPluginResult* pluginResult = nil;
 
     NSError *error = nil;
@@ -211,7 +211,7 @@
 
 - (void)start:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: start");
+    NSLog(@"UbuduSDKCordova: start");
     CDVPluginResult* pluginResult = nil;
     
     NSError *error = nil;
@@ -230,7 +230,7 @@
 
 - (void)stop:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: stop");
+    NSLog(@"UbuduSDKCordova: stop");
     [[UbuduSDK sharedInstance] stop];
     
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -239,7 +239,7 @@
 
 - (void)isRunning:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: isRunning");
+    NSLog(@"UbuduSDKCordova: isRunning");
     BOOL isRunning = [UbuduSDK sharedInstance].isRunning;
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isRunning];
@@ -248,7 +248,7 @@
 
 - (void)resetCounters:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: resetCounters");
+    NSLog(@"UbuduSDKCordova: resetCounters");
     CDVPluginResult* pluginResult = nil;
     
     NSError *error = nil;
@@ -267,7 +267,7 @@
 
 - (void)removeAllData:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: removeAllData");
+    NSLog(@"UbuduSDKCordova: removeAllData");
     CDVPluginResult* pluginResult = nil;
     
     NSError *error = nil;
@@ -286,7 +286,7 @@
 
 - (void)getDebugFileContent:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: getDebugFileContent");
+    NSLog(@"UbuduSDKCordova: getDebugFileContent");
 
     NSData *debugFileContent = [[UbuduSDK sharedInstance] getDebugFileContent];
     
@@ -296,7 +296,7 @@
 
 - (void)clearDebugFile:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"Plugin: clearDebugFile");
+    NSLog(@"UbuduSDKCordova: clearDebugFile");
 
     [[UbuduSDK sharedInstance] clearDebugFile];
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];

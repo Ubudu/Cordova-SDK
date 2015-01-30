@@ -26,9 +26,10 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.ubudu.cordova.sdk"
-        version="0.1-dev">
-    <name>UbuduSDK</name>
+        version="0.1-dev-2">
+    <name>Ubudu SDK</name>
     <description>Cordova Ubudu SDK Plugin</description>
     <license>BSD License</license>
     <keywords>cordova,ubudu,sdk,beacon,ibeacon</keywords>
@@ -53,5 +54,60 @@
         <framework src="CoreBluetooth.framework" weak="true" />
         <framework src="PassKit.framework" weak="true" />
         <framework src="src/ios/UbuduSDK.framework" custom="true" />
+    </platform>
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="UbuduSDKCordova">
+                <param name="android-package" value="com.ubudu.cordova.sdk.UbuduSDKCordova"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.BLUETOOTH"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="com.ubudu.sdk.WebActivity" />
+            <receiver android:name=".service.UbuduBootReceiver">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                </intent-filter>
+            </receiver>
+
+            <service
+                android:name="com.ubudu.sdk.service.UbuduService"
+                android:enabled="true"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="com.ubudu.sdk.service.UbuduService.action.DISPLAY_WEB_PAGE" />
+                    <action android:name="com.ubudu.sdk.service.UbuduService.action.OPEN_SAMSUNG_WALLET" />
+                </intent-filter>
+            </service>
+            <service
+                android:name="com.ubudu.network.ibeacon.service.IBeaconService"
+                android:enabled="true"
+                android:exported="false"
+                android:isolatedProcess="false" />
+            <service
+                android:name="com.ubudu.network.ibeacon.IBeaconIntentProcessor"
+                android:enabled="true"
+                android:exported="false"
+                android:isolatedProcess="false">
+                <meta-data android:name="background" android:value="true" />
+                <intent-filter android:priority="1">
+                    <action android:name="com.ubudu.sdk.beacon.internal.action.IBeaconIntentProcessor"/>
+                </intent-filter>
+            </service>
+        </config-file>
+        <source-file src="src/android/com/ubudu/cordova/sdk/UbuduSDKCordova.java" target-dir="src/com/ubudu/cordova/sdk" />
+        <source-file src="src/android/ubudu-sdk-1.4.5.jar" target-dir="libs" />
+        <source-file src="src/android/gson-2.2.4.jar" target-dir="libs" />
+        <source-file src="src/android/ormlite-android-4.48.jar" target-dir="libs" />
+        <source-file src="src/android/ormlite-core-4.48.jar" target-dir="libs" />
+        <source-file src="src/android/volley.jar" target-dir="libs" />
     </platform>
 </plugin>
