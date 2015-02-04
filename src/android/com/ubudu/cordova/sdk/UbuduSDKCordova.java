@@ -29,8 +29,8 @@ package com.ubudu.cordova.sdk;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
-import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -39,6 +39,8 @@ import android.content.Context;
 import com.ubudu.sdk.UbuduSDK;
 import com.ubudu.sdk.UbuduBeaconManager;
 import com.ubudu.sdk.UbuduGeofenceManager;
+
+import com.ubudu.cordova.sdk.UbuduUserCordova;
 
 public class UbuduSDKCordova extends CordovaPlugin {
 
@@ -55,84 +57,89 @@ public class UbuduSDKCordova extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Log.v("UbuduSDKCordova", "execute: action = " + action + " # args = " + args.length());
+        Log.d("UbuduSDKCordova", "execute: action = " + action + " # args = " + args.length());
+        
         if (action.equals("getSDKVersion")) {
             this.getSDKVersion(callbackContext);
-            return true;
-        } else if (action.equals("getAppNamespace")) {
+        }
+        else if (action.equals("getAppNamespace")) {
             this.getAppNamespace(callbackContext);
-            return true;
-        } else if (action.equals("setAppNamespace")) {
+        }
+        else if (action.equals("setAppNamespace")) {
             String appNamespace = args.getString(0);
             this.setAppNamespace(appNamespace, callbackContext);
-            return true;
-        } else if (action.equals("getBaseURL")) {
+        }
+        else if (action.equals("getBaseURL")) {
             this.getBaseURL(callbackContext);
-            return true;
-        } else if (action.equals("setBaseURL")) {
+        }
+        else if (action.equals("setBaseURL")) {
             String baseURL = args.getString(0);
             this.setBaseURL(baseURL, callbackContext);
-            return true;
-        } else if (action.equals("setDelegate")) {
+        }
+        else if (action.equals("setDelegate")) {
             // TODO get delegate param
             this.setDelegate(callbackContext);
-            return true;
-        } else if (action.equals("getBeaconsEnabled")) {
+        }
+        else if (action.equals("getBeaconsEnabled")) {
             this.getBeaconsEnabled(callbackContext);
-            return true;
-        } else if (action.equals("setBeaconsEnabled")) {
+        }
+        else if (action.equals("setBeaconsEnabled")) {
             boolean isEnabled = args.getBoolean(0);
             this.setBeaconsEnabled(isEnabled, callbackContext);
-            return true;
-        } else if (action.equals("getGeofencesEnabled")) {
+        }
+        else if (action.equals("getGeofencesEnabled")) {
             this.getGeofencesEnabled(callbackContext);
-            return true;
-        } else if (action.equals("setGeofencesEnabled")) {
+        }
+        else if (action.equals("setGeofencesEnabled")) {
             boolean isEnabled = args.getBoolean(0);
             this.setGeofencesEnabled(isEnabled, callbackContext);
-            return true;
-        } else if (action.equals("getFileLogEnabled")) {
+        }
+        else if (action.equals("getFileLogEnabled")) {
             this.getFileLogEnabled(callbackContext);
-            return true;
-        } else if (action.equals("setFileLogEnabled")) {
+        }
+        else if (action.equals("setFileLogEnabled")) {
             boolean isEnabled = args.getBoolean(0);
             this.setFileLogEnabled(isEnabled, callbackContext);
-            return true;
-        } else if (action.equals("deviceSupportsGeofences")) {
-            this.deviceSupportsGeofences(callbackContext);
-            return true;
-        } else if (action.equals("deviceSupportsBeacons")) {
-            this.deviceSupportsBeacons(callbackContext);
-            return true;
-        } else if (action.equals("start")) {
-            this.start(callbackContext);
-            return true;
-        } else if (action.equals("stop")) {
-            this.stop(callbackContext);
-            return true;
-        } else if (action.equals("isRunning")) {
-            this.isRunning(callbackContext);
-            return true;
-        } else if (action.equals("resetCounters")) {
-            this.resetCounters(callbackContext);
-            return true;
-        } else if (action.equals("removeAllData")) {
-            this.removeAllData(callbackContext);
-            return true;
-        } else if (action.equals("getDebugFileContent")) {
-            this.getDebugFileContent(callbackContext);
-            return true;
-        } else if (action.equals("clearDebugFile")) {
-            this.clearDebugFile(callbackContext);
-            return true;
-        } else {
-            Log.w("UbuduSDKCordova", "Unknown action received (action = " + action + ")");
         }
-        return false;
+        else if (action.equals("deviceSupportsGeofences")) {
+            this.deviceSupportsGeofences(callbackContext);
+        }
+        else if (action.equals("deviceSupportsBeacons")) {
+            this.deviceSupportsBeacons(callbackContext);
+        }
+        else if (action.equals("setUserInfo")) {
+            JSONObject userInfo = args.getJSONObject(0);
+            this.setUserInfo(userInfo, callbackContext);
+        }
+        else if (action.equals("start")) {
+            this.start(callbackContext);
+        }
+        else if (action.equals("stop")) {
+            this.stop(callbackContext);
+        }
+        else if (action.equals("isRunning")) {
+            this.isRunning(callbackContext);
+        }
+        else if (action.equals("resetCounters")) {
+            this.resetCounters(callbackContext);
+        }
+        else if (action.equals("removeAllData")) {
+            this.removeAllData(callbackContext);
+        }
+        else if (action.equals("getDebugFileContent")) {
+            this.getDebugFileContent(callbackContext);
+        }
+        else if (action.equals("clearDebugFile")) {
+            this.clearDebugFile(callbackContext);
+        } else {
+            Log.e("UbuduSDKCordova", "Unknown action received (action = " + action + ")");
+            return false;
+        }
+        return true;
     }
 
     private void getSDKVersion(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "getSDKVersion");
+        Log.d("UbuduSDKCordova", "getSDKVersion");
 
         UbuduSDK sdk = getUbuduSDK();
         String sdkVersion = sdk.getVersion();
@@ -141,7 +148,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void getAppNamespace(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "getAppNamespace");
+        Log.d("UbuduSDKCordova", "getAppNamespace");
 
         UbuduSDK sdk = getUbuduSDK();
         String appNamespace = sdk.namespace();
@@ -150,7 +157,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void setAppNamespace(String appNamespace, CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "setAppNamespace");
+        Log.d("UbuduSDKCordova", "setAppNamespace");
 
         UbuduSDK sdk = getUbuduSDK();
         sdk.setNamespace(appNamespace);
@@ -159,7 +166,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void getBaseURL(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "getBaseURL");
+        Log.d("UbuduSDKCordova", "getBaseURL");
 
         UbuduSDK sdk = getUbuduSDK();
         // TODO
@@ -167,7 +174,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void setBaseURL(String baseURL, CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "setBaseURL");
+        Log.d("UbuduSDKCordova", "setBaseURL");
 
         UbuduSDK sdk = getUbuduSDK();
         // TODO
@@ -175,7 +182,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void setDelegate(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "setDelegate");
+        Log.d("UbuduSDKCordova", "setDelegate");
 
         UbuduSDK sdk = getUbuduSDK();
         // TODO
@@ -183,12 +190,12 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void getBeaconsEnabled(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "getBeaconsEnabled");
+        Log.d("UbuduSDKCordova", "getBeaconsEnabled");
         callbackContext.success(this.beaconsEnabled ? 1 : 0);
     }
 
     private void setBeaconsEnabled(boolean isEnabled, CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "setBeaconsEnabled");
+        Log.d("UbuduSDKCordova", "setBeaconsEnabled");
 
         UbuduSDK sdk = getUbuduSDK();
         Context context = this.getContext();
@@ -210,14 +217,14 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void getGeofencesEnabled(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "getGeofencesEnabled");
+        Log.d("UbuduSDKCordova", "getGeofencesEnabled");
 
         UbuduSDK sdk = getUbuduSDK();
         callbackContext.success(this.geofencesEnabled ? 1 : 0);
     }
 
     private void setGeofencesEnabled(boolean isEnabled, CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "setGeofencesEnabled");
+        Log.d("UbuduSDKCordova", "setGeofencesEnabled");
 
         UbuduSDK sdk = getUbuduSDK();
         Context context = this.getContext();
@@ -239,7 +246,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void getFileLogEnabled(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "getFileLogEnabled");
+        Log.d("UbuduSDKCordova", "getFileLogEnabled");
 
         UbuduSDK sdk = getUbuduSDK();
         // TODO
@@ -247,7 +254,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void setFileLogEnabled(boolean isEnabled, CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "setFileLogEnabled");
+        Log.d("UbuduSDKCordova", "setFileLogEnabled");
 
         UbuduSDK sdk = getUbuduSDK();
         sdk.setFileLogEnabled(isEnabled);
@@ -256,7 +263,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void deviceSupportsGeofences(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "deviceSupportsGeofences");
+        Log.d("UbuduSDKCordova", "deviceSupportsGeofences");
 
         UbuduSDK sdk = getUbuduSDK();
         UbuduGeofenceManager geofenceManager = sdk.getGeofenceManager();
@@ -266,7 +273,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void deviceSupportsBeacons(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "deviceSupportsBeacons");
+        Log.d("UbuduSDKCordova", "deviceSupportsBeacons");
 
         UbuduSDK sdk = getUbuduSDK();
         UbuduBeaconManager beaconManager = sdk.getBeaconManager();
@@ -275,8 +282,18 @@ public class UbuduSDKCordova extends CordovaPlugin {
         callbackContext.success(beaconsSupported ? 1 : 0);
     }
 
+    private void setUserInfo(JSONObject userInfo, CallbackContext callbackContext) {
+        Log.d("UbuduSDKCordova", "setUserInfo");
+
+        UbuduSDK sdk = getUbuduSDK();
+        UbuduUserCordova user = new UbuduUserCordova(userInfo);
+        sdk.setUserInformation(user);
+
+        callbackContext.success();
+    }
+
     private void start(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "start");
+        Log.d("UbuduSDKCordova", "start");
 
         Context context = this.getContext();
         UbuduSDK sdk = getUbuduSDK();
@@ -286,7 +303,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
         if (geofenceManager != null && this.geofencesEnabled && !geofenceManager.isMonitoring()) {
             Error error = geofenceManager.start(context);
             if (error != null) {
-                Log.v("UbuduSDKCordova", "start: Error with geofenceManager.start");
+                Log.e("UbuduSDKCordova", "start: Error with geofenceManager.start");
                 callbackContext.error(error.getLocalizedMessage());
                 return;
             }
@@ -298,7 +315,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
                     geofenceManager.stop(context);
                 }
 
-                Log.v("UbuduSDKCordova", "start: Error with beaconManager.start");
+                Log.e("UbuduSDKCordova", "start: Error with beaconManager.start");
                 callbackContext.error(error.getLocalizedMessage());
                 return;
             }
@@ -309,7 +326,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void stop(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "stop");
+        Log.d("UbuduSDKCordova", "stop");
 
         Context context = this.getContext();
         UbuduSDK sdk = getUbuduSDK();
@@ -328,12 +345,12 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void isRunning(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "isRunning");
+        Log.d("UbuduSDKCordova", "isRunning");
         callbackContext.success(this.isRunning ? 1 : 0);
     }
 
     private void resetCounters(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "resetCounters");
+        Log.d("UbuduSDKCordova", "resetCounters");
 
         UbuduSDK sdk = getUbuduSDK();
         // TODO
@@ -341,7 +358,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void removeAllData(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "removeAllData");
+        Log.d("UbuduSDKCordova", "removeAllData");
 
         UbuduSDK sdk = getUbuduSDK();
         // TODO
@@ -349,7 +366,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void getDebugFileContent(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "getDebugFileContent");
+        Log.d("UbuduSDKCordova", "getDebugFileContent");
 
         UbuduSDK sdk = getUbuduSDK();
         String debugFileContent = sdk.debugFileContent();
@@ -358,7 +375,7 @@ public class UbuduSDKCordova extends CordovaPlugin {
     }
 
     private void clearDebugFile(CallbackContext callbackContext) {
-        Log.v("UbuduSDKCordova", "clearDebugFile");
+        Log.d("UbuduSDKCordova", "clearDebugFile");
 
         UbuduSDK sdk = getUbuduSDK();
         Context context = this.getContext();

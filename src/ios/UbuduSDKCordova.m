@@ -209,6 +209,51 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)setUserInfo:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"UbuduSDKCordova: setUserInfo");
+    
+    id userInfo = [command.arguments objectAtIndex:0];
+    if ([userInfo isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *userInfoDict = (NSDictionary *)userInfo;
+
+        id rawUserID = userInfoDict[@"userID"];
+        id rawProperties = userInfoDict[@"properties"];
+        id rawTags = userInfoDict[@"tags"];
+
+        NSString *userID = nil;
+        NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+        NSMutableArray *tags = [NSMutableArray array];
+
+        if ([rawUserID isKindOfClass:[NSString class]]) {
+            userID = (NSString *)rawUserID;
+        }
+
+        if ([rawProperties isKindOfClass:[NSDictionary class]]) {
+            for (id propertyKey in (NSDictionary *)rawProperties) {
+                id propertyValue = rawProperties[propertyKey];
+                if ([propertyKey isKindOfClass:[NSString class]] && [propertyValue isKindOfClass:[NSString class]]) {
+                    properties[propertyKey] = propertyValue;
+                }
+            }
+        }
+
+        if ([rawTags isKindOfClass:[NSArray class]]) {
+            for (id tagValue in (NSArray *)rawTags) {
+                if ([tagValue isKindOfClass:[NSString class]]) {
+                    [tags addObject:tagValue];
+                }
+            }
+        }
+
+        UbuduUser *user = [[UbuduUser alloc] initWithID:userID withProperties:properties tags:tags];
+        [UbuduSDK sharedInstance].user = user;
+    }
+    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 - (void)start:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"UbuduSDKCordova: start");

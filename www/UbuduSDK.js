@@ -153,6 +153,14 @@ var UbuduSDK = {
         }, 'UbuduSDKCordova', 'deviceSupportsBeacons', []);
     },
 
+    setUserInfo: function(userInfo, doneCallback) {
+        cordova.exec(function() {
+            doneCallback();
+        }, function(err) {
+            console.log('UbuduSDKCordova_JS ERROR: setUserInfo => ' + err);
+        }, 'UbuduSDKCordova', 'setUserInfo', [userInfo]);
+    },
+
     start: function(successCallback, errorCallback) {
         cordova.exec(function() {
             successCallback();

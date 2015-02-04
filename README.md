@@ -5,7 +5,7 @@ The plugin is currently in development. As a consequence the plugin API may chan
 
 ## Installation procedure
 
-Follow these instructions in order to get started with a fresh Cordova app that runs on iOS and Android and integrate the **Ubudu SDK**.
+Follow these instructions in order to get started with a fresh Cordova app that runs on iOS and Android and integrates the **Ubudu SDK**.
 
 ### 1. Install Cordova
 
@@ -129,11 +129,10 @@ UbuduSDK.start(
 	**You need to replace the app namespace by the one you created in the [Ubudu manager](https://manager.ubudu.com)**
 
 	*Of course the HTML element manipulated with the DOM API is only there to have a visual confirmation that the SDK is started. You are free to remove it.*
-www/
 
 2. In your `index.html` file add the following HTML:
 
-	***Optional:** Only if you want a visual confirmation that the SDK has started.*
+	**Optional:** Only if you want a visual confirmation that the SDK has started.*
 	
 	Add this line:
 

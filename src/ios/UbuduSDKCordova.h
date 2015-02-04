@@ -54,6 +54,8 @@
 - (void)deviceSupportsGeofences:(CDVInvokedUrlCommand*)command;
 - (void)deviceSupportsBeacons:(CDVInvokedUrlCommand*)command;
 
+- (void)setUserInfo:(CDVInvokedUrlCommand*)command;
+
 - (void)start:(CDVInvokedUrlCommand*)command;
 - (void)stop:(CDVInvokedUrlCommand*)command;
 - (void)isRunning:(CDVInvokedUrlCommand*)command;
