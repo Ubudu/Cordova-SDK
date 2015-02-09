@@ -28,7 +28,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.ubudu.cordova.sdk"
-        version="0.1-dev-3">
+        version="0.1-dev-4">
     <name>Ubudu SDK</name>
     <description>Cordova Ubudu SDK Plugin</description>
     <license>BSD License</license>
@@ -108,7 +108,7 @@
         </config-file>
         <source-file src="src/android/com/ubudu/cordova/sdk/UbuduSDKCordova.java" target-dir="src/com/ubudu/cordova/sdk" />
         <source-file src="src/android/com/ubudu/cordova/sdk/UbuduUserCordova.java" target-dir="src/com/ubudu/cordova/sdk" />
-        <source-file src="src/android/ubudu-sdk-1.4.5.jar" target-dir="libs" />
+        <source-file src="src/android/ubudu-sdk-1.4.6.jar" target-dir="libs" />
         <source-file src="src/android/gson-2.2.4.jar" target-dir="libs" />
         <source-file src="src/android/ormlite-android-4.48.jar" target-dir="libs" />
         <source-file src="src/android/ormlite-core-4.48.jar" target-dir="libs" />
