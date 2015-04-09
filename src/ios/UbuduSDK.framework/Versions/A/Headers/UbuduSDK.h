@@ -33,6 +33,7 @@
 #import "UbuduSDKDelegate.h"
 #import "UbuduErrorCodes.h"
 #import "UbuduUser.h"
+#import "UbuduAuthorizationManager.h"
 
 @interface UbuduSDK : NSObject
 
@@ -56,13 +57,20 @@
  */
 @property (nonatomic, copy) NSString *baseURL;
 
-/* Enable or disable the advertisements feature of the SDK.
- */
-@property (nonatomic) BOOL localizedAdsEnabled;
-
 /* Enable or disable the beacons features of the SDK. Enabled by default but only if the device supports beacons.
  */
 @property (nonatomic) BOOL beaconsEnabled;
+
+/* Request "When In Use" authorization for location services instead of "Always".
+ * By settings this to YES you won't get background support (your app won't be awaken when near your beacons, rules won't trigger when the app is killed or in the background).
+ * However you will still be able to get rules to trigger when the app is in foreground.
+ * You must set this property before starting the SDK for the first time. Changes done afterward or before next launches won't have any effect.
+ *
+ * Default is NO (which means the SDK will request location "Always" authorization.
+ *
+ * Warning: do not set this to YES if you plan to use geofences features!
+ */
+@property (nonatomic) BOOL requestWhenInUseAuthorization;
 
 /* Enable or disable the geofencing features of the SDK. Enabled by default but only if the device supports geofencing.
  */
@@ -107,7 +115,7 @@
 
 
 /* Start the SDK.
- * This will start the location and/or beacons monitoring and actions will be triggered when necessary.
+ * This will start the location and/or beacons monitoring. Rules will trigger when matching conditions are met and linked actions will be executed.
  */
 - (BOOL)start:(NSError **)error;
 
@@ -117,7 +125,8 @@
 - (BOOL)resume:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions error:(NSError **)error;
 
 /* Stop the SDK.
- * Location and beacons will not be monitored anymore and no action will be triggered.
+ * Geofences and beacons will not be monitored anymore and no more action will be triggered until you call again the start method.
+ * Your app will not be waken up anymore.
  */
 - (void)stop;
 
@@ -128,18 +137,13 @@
  */
 - (void)executeLocalNotificationActions:(UILocalNotification *)localNotification;
 
-/* Update the information associated to the Ubudu user (provided in the user property).
- * This will force the user data being (re-)sent to the back office and the rules to be update to match the new user tags.
- */
-- (void)updateUserInformation;
-
 /* Reset the trigger counters of all rules, for geofences and beacons. The per-rule and per-group counters will be reset.
- * This is handy for developping and testing purpose. You may not want to call this function when your app is in production because it will mess with the min & max events defined in the back-office.
+ * This is handy for developping and testing purpose. You should not call this method when your app is in production because it will mess with the min & max event limits set in the back-office.
  */
 - (BOOL)resetCounters:(NSError **)error;
 
 /* Clear all data stored by the SDK.
- * If the SDK is started, it will be first stopped, then the data will be cleared and the SDK will be restarted.
+ * If the SDK is started, it will be stopped, the data will be cleared, then the SDK will be restarted.
  */
 - (BOOL)removeAllData:(NSError **)error;
 
@@ -151,7 +155,6 @@
 /* Erase the debug log file.
  */
 - (void)clearDebugFile;
-
 
 
 /* Update the location.
@@ -168,36 +171,5 @@
  * Geofences must be enabled.
  */
 - (double)getCurrentLongitude;
-
-
-
-/* Set the UIView placeholder you want to use to automatically display the received advertisements.
- * If you want to manually handle the display of the advertisements, you should implement the ubudu:didReceiveNewAdView:triggeredBy:
- * method of the UbuduSDKDelegate, in which case the view specifid with this setter will not be used.
- */
-- (void)setAdViewPlaceholder:(UIView *)adPlaceholder;
-
-/* Return the ad UIView with currently loaded contents.
- */
-- (UIView *)getAdView;
-
-
-
-/***************************************************************
- * DO NOT USE: Methods made public for development purpose only
- ****************************************************************/
-- (NSArray *)_getAllStoredGeofencesAsCLRegions;
-- (NSArray *)_getAllStoredGeofencesAsNSDictionaries;
-- (BOOL)_geofenceIsMonitored:(NSString *)geofenceId;
-- (BOOL)_geofenceIsCurrent:(NSString *)geofenceId;
-- (BOOL)_executeActionsForGeofence:(NSString *)geofenceId error:(NSError **)error;
-
-- (NSArray *)_getAllCurrentBeacons;
-
-- (NSArray *)_getStoredSDKLogEvents:(int)startPage perPage:(int)perPage;
-- (NSManagedObjectContext *)getSDKManagedObjectContext;
-/*****************
- * DO NOT USE END
- *****************/
 
 @end
